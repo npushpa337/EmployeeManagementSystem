@@ -13,6 +13,8 @@ public class EmployeeResponse {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public Long getEmpId() {
 		return empId;
 	}

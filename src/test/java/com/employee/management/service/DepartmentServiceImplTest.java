@@ -1,7 +1,10 @@
-package com.emp.management.service;
+package com.employee.management.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +14,10 @@ import org.mockito.MockitoAnnotations;
 
 import com.employee.management.dto.DepartmentRequest;
 import com.employee.management.dto.DepartmentResponse;
+import com.employee.management.dto.EmployeeResponse;
 import com.employee.management.exception.ResourceNotFoundException;
 import com.employee.management.model.Department;
+import com.employee.management.model.Employee;
 import com.employee.management.repository.DepartmentRepository;
 import com.employee.management.service.DepartmentServiceImpl;
 
@@ -86,6 +91,26 @@ class DepartmentServiceImplTest{
         
         verify(departmentRepo, times(1)).delete(dept);
         
+    }
+	
+    @Test
+    void testGetAllDepartments() {
+        List<Department> departments = new ArrayList<>();
+
+        Department d1 = new Department(); 
+        d1.setDeptName("A");
+        Department d2 = new Department(); 
+        d2.setDeptName("B");
+
+        departments.add(d1);
+        departments.add(d2);
+
+        when(departmentRepo.findAll()).thenReturn(departments);
+
+        List<DepartmentResponse> responses = departmentService.getAllDepartments();
+
+        assertEquals(2, responses.size());
+        verify(departmentRepo, times(1)).findAll();
     }
 	
 	@Test

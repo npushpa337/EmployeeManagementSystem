@@ -10,6 +10,8 @@ public class DepartmentResponse {
 	public DepartmentResponse() {
 		
 	}
+	
+
 	public Long getDeptId() {
 		return deptId;
 	}

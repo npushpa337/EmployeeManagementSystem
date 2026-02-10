@@ -18,10 +18,13 @@ import com.employee.management.dto.EmployeeResponse;
 import com.employee.management.model.Employee;
 import com.employee.management.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/employee")
+@Tag(name= "Employee")
 public class EmployeeController {
 	
 	private final EmployeeService service;
@@ -31,26 +34,31 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/createEmp/{deptId}")
+	@Operation(summary= "create employee by department")
 	public ResponseEntity<EmployeeResponse> createEmployee(@PathVariable Long deptId,@Valid @RequestBody EmployeeRequest req){
 		return ResponseEntity.ok(service.createEmployee(req, deptId));
 	}
 	
 	@GetMapping("/{empId}")
+	@Operation(summary= "Get Employee By Id")
 	public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long empId){
 		return ResponseEntity.ok(service.getEmployeeById(empId));
 	}
 	
 	@GetMapping
+	@Operation(summary= "Get All Employees")
 	public ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
 		return ResponseEntity.ok(service.getAllEmployees());
 	}
 	
 	@GetMapping("/department/{deptId}")
+	@Operation(summary= "Get Employees By Department Id")
 	public ResponseEntity<List<EmployeeResponse>> getEmployeesByDepartment(@PathVariable Long deptId){
 		return ResponseEntity.ok(service.getEmployeesByDepartment(deptId));
 	}
 	
 	@DeleteMapping("/{empId}")
+	@Operation(summary= "Delete Employee By Id")
 	public ResponseEntity<String> deleteEmployeeById(@PathVariable Long empId){
 		service.deleteEmployeeById(empId);
 		return ResponseEntity.ok("Employee is deleted successfully");

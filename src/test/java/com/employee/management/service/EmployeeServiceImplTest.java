@@ -1,4 +1,4 @@
-package com.emp.management.service;
+package com.employee.management.service;
 
 import com.employee.management.dto.EmployeeRequest;
 import com.employee.management.dto.EmployeeResponse;
@@ -70,9 +70,7 @@ class EmployeeServiceImplTest {
 
         ResourceNotFoundException ex = assertThrows(
                 ResourceNotFoundException.class,
-                () -> employeeService.createEmployee(new EmployeeRequest(), 1L)
-        );
-
+                () -> employeeService.createEmployee(new EmployeeRequest(), 1L));
         assertEquals("Department not found with the id: 1", ex.getMessage());
     }
 
@@ -97,9 +95,7 @@ class EmployeeServiceImplTest {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
         ResourceNotFoundException ex = assertThrows(
-                ResourceNotFoundException.class,
-                () -> employeeService.getEmployeeById(1L)
-        );
+                ResourceNotFoundException.class,() -> employeeService.getEmployeeById(1L));
 
         assertEquals("Employee not found with the id: 1", ex.getMessage());
     }
@@ -138,8 +134,7 @@ class EmployeeServiceImplTest {
         when(departmentRepository.findById(1L)).thenReturn(Optional.of(dept));
         when(employeeRepository.findByDepartment(dept)).thenReturn(List.of(emp));
 
-        List<EmployeeResponse> responses =
-                employeeService.getEmployeesByDepartment(1L);
+        List<EmployeeResponse> responses =employeeService.getEmployeesByDepartment(1L);
 
         assertEquals(1, responses.size());
         assertEquals("Pushpa", responses.get(0).getEmpName());
@@ -150,10 +145,8 @@ class EmployeeServiceImplTest {
     void testGetEmployeesByDepartment_DepartmentNotFound() {
         when(departmentRepository.findById(1L)).thenReturn(Optional.empty());
 
-        ResourceNotFoundException ex = assertThrows(
-                ResourceNotFoundException.class,
-                () -> employeeService.getEmployeesByDepartment(1L)
-        );
+        ResourceNotFoundException ex = assertThrows(ResourceNotFoundException.class,
+                () -> employeeService.getEmployeesByDepartment(1L));
 
         assertTrue(ex.getMessage().contains("Department not found"));
     }
@@ -176,9 +169,7 @@ class EmployeeServiceImplTest {
         when(employeeRepository.findById(1L)).thenReturn(Optional.empty());
 
         ResourceNotFoundException ex = assertThrows(
-                ResourceNotFoundException.class,
-                () -> employeeService.deleteEmployeeById(1L)
-        );
+                ResourceNotFoundException.class,() -> employeeService.deleteEmployeeById(1L));
 
         assertEquals("Employee not found with the id: 1", ex.getMessage());
     }

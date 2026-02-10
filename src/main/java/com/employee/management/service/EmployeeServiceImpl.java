@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public EmployeeResponse createEmployee(EmployeeRequest req, Long deptId) {
 		
 		Department dept= deptRepo.findById(deptId)
-				.orElseThrow(()-> new ResourceNotFoundException("Department not found with the id:" + deptId));
+				.orElseThrow(()-> new ResourceNotFoundException("Department not found with the id: " + deptId));
 		if(repo.existsByEmail(req.getEmail())) {
 			throw new BadRequestException("Email id is already exists");
 		}
@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public List<EmployeeResponse> getEmployeesByDepartment(Long deptId) {
 		Department dept= deptRepo.findById(deptId)
-				.orElseThrow(()-> new ResourceNotFoundException("Department not found with the id:" +deptId));
+				.orElseThrow(()-> new ResourceNotFoundException("Department not found with the id: " + deptId));
 		return repo.findByDepartment(dept).stream().map(EmployeeMapper::toResponse).toList();
 	}
 

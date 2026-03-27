@@ -3,6 +3,7 @@ package com.employee.management.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/dept")
+@RequestMapping("/departments")
 @Tag(name= "Department")
 public class DepartmentController {
 	
@@ -31,6 +32,7 @@ public class DepartmentController {
 	}
 	
 	@PostMapping("/createDept")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary= "create department")
 	public ResponseEntity<DepartmentResponse> createDepartment(@Valid @RequestBody DepartmentRequest req){
 		DepartmentResponse response= service.createDepartment(req);
@@ -38,18 +40,21 @@ public class DepartmentController {
 	}
 	
 	@GetMapping("/{deptId}")
+	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	@Operation(summary= "Get department by Id")
 	public ResponseEntity<DepartmentResponse> getDepartmentById(@PathVariable Long deptId){
 		return ResponseEntity.ok(service.getDepartmentById(deptId));
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	@Operation(summary= "Get all departments")
 	public ResponseEntity<List<DepartmentResponse>> getAllDepartments(){
 		return ResponseEntity.ok(service.getAllDepartments());
 	}
 	
 	@DeleteMapping("/{deptId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(summary= "delete department by Id")
 	public ResponseEntity<String> deleteDepartmentById(@PathVariable Long deptId){
 		service.deleteDepartment(deptId);
